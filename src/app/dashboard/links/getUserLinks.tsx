@@ -26,7 +26,7 @@ export async function getUserLinks(): Promise<UserLinksResponse | null> {
       return null;
     }
 
-    const data = await response.json();
+    const { data } = await response.json();
     return { data } as UserLinksResponse; // Return an object with 'data' property
   } catch (error: any) {
     console.log('Error in getUserLinks: ', error.message);

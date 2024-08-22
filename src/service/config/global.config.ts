@@ -3,6 +3,7 @@ const API_BASE_URL =
 const API_VERSION = 'api';
 
 export const API_CONFIG = {
+  baseUrlDirect: 'vixxa.ir',
   baseUrl: API_BASE_URL,
   version: API_VERSION,
   endpoints: {

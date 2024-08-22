@@ -4,10 +4,23 @@ import { useEffect, useState } from 'react';
 import { getUserLinks } from './getUserLinks';
 import ActivePage from '@/components/dashboard/ActivePage';
 import { Button } from '@/components/ui/button';
-import { Plus } from 'lucide-react';
+import {
+  Calendar,
+  Copy,
+  Edit,
+  Edit2,
+  Mouse,
+  MousePointerClick,
+  Plus,
+  Share2Icon,
+  ShareIcon,
+} from 'lucide-react';
 import { DialogDemo } from '@/components/dashboard/createLinkDialog';
 import { useToast } from '@/components/ui/use-toast';
 import { ToastAction } from '@/components/ui/toast';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import Link from 'next/link';
+import API_CONFIG from '@/service/config/global.config';
 
 export default function Dashboard() {
   const { toast } = useToast();
@@ -83,6 +96,7 @@ export default function Dashboard() {
 
     fetchData();
   }, []);
+  console.log(userLinks);
 
   if (error) {
     return <div>Error fetching user links: {error}</div>;
@@ -103,17 +117,116 @@ export default function Dashboard() {
           onClick={createLink}
         />
       </div>
-      {!userLinks?.length && <div>شما هیچ لینک فعالی ندارید.</div>}
-      <h1>User Links</h1>
-      <ul>
-        {userLinks.length ? (
-          userLinks.map((link) => (
-            <li key={link.id}>{link.shortCode}</li>
-          ))
+      <div className="mt-5">
+        {isLoading ? (
+          <li>درحال بارگذاری...</li>
         ) : (
-          <li>Loading...</li>
+          <div>
+            {userLinks.length
+              ? userLinks.map((link) => {
+                  // Create the URL object
+                  const href = new URL(
+                    link.shortCode,
+                    API_CONFIG.baseUrlDirect.startsWith('http://') ||
+                    API_CONFIG.baseUrlDirect.startsWith('https://')
+                      ? API_CONFIG.baseUrlDirect
+                      : `https://${API_CONFIG.baseUrlDirect}`,
+                  );
+
+                  const createdAt = new Date(link.createdAt);
+                  const formattedDate = createdAt.toLocaleString(
+                    'fa-IR',
+                    {
+                      year: 'numeric',
+                      day: '2-digit',
+                      hour: '2-digit',
+                      minute: '2-digit',
+                      second: '2-digit',
+                      month: 'long',
+                    },
+                  );
+                  return (
+                    <div
+                      key={link.id}
+                      className="flex flex-row justify-between sm:h-40 rounded-xl shadow-xs p-4 mb-2 bg-white dark:bg-[#121212]"
+                    >
+                      <div className="flex flex-col justify-between">
+                        <div className="flex flex-row items-center">
+                          <Avatar>
+                            <AvatarFallback className="text-blue-300 font-bold !text-2xl">
+                              {link.shortCode.slice(1, 2)}
+                            </AvatarFallback>
+                          </Avatar>
+                          <span className="mr-2 font-bold">
+                            اسم لینک
+                          </span>
+                        </div>
+                        <a
+                          className="text-blue-600"
+                          href={href.toString()}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {API_CONFIG.baseUrlDirect + link.shortCode}
+                        </a>
+                        <h4>{link.originalUrl}</h4>
+
+                        <div className="flex flex-row items-center">
+                          <Calendar className="ml-1" size={18} />
+                          <span className=" text-xs">
+                            {formattedDate}
+                          </span>
+                          <div className="flex flex-row items-center mr-2">
+                            <MousePointerClick
+                              className="ml-1"
+                              size={18}
+                            />
+                            <span className=" text-xs">
+                              {link.clickCount}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="flex flex-col place-content-center sm:flex-row items-end sm:items-start justify-end sm:w-1/2 mb-2">
+                        <Button
+                          size={'sm'}
+                          className="mb-2"
+                          icon={<Share2Icon className="!w-4 !h-4" />}
+                        />
+                        <Button
+                          size={'sm'}
+                          className="mr-2 bg-slate-200 text-black hover:text-slate-50 hidden sm:flex"
+                          icon={<Edit2 className="!w-4 !h-4" />}
+                        >
+                          ویرایش
+                        </Button>
+                        <Button
+                          size={'sm'}
+                          className="mr-2 mb-2 bg-slate-200 text-black hover:text-slate-50 sm:hidden"
+                          icon={<Edit2 className="!w-4 !h-4 " />}
+                        />
+
+                        <Button
+                          size={'sm'}
+                          className="mr-2 bg-slate-200 text-black hover:text-slate-50 hidden sm:flex"
+                          icon={<Copy className="!w-4 !h-4" />}
+                        >
+                          کپی
+                        </Button>
+                        <Button
+                          size={'sm'}
+                          className="mr-2 mb-2 bg-slate-200 text-black hover:text-slate-50 sm:hidden"
+                          icon={<Copy className="!w-4 !h-4" />}
+                        />
+                      </div>
+                    </div>
+                  );
+                })
+              : !userLinks?.length &&
+                isLoading && <div>شما هیچ لینک فعالی ندارید.</div>}
+          </div>
         )}
-      </ul>
+      </div>
     </div>
   );
 }
@@ -122,5 +235,8 @@ export interface Link {
   id: string | number;
   name: string;
   shortCode: string;
+  originalUrl: string;
+  createdAt: string;
+  clickCount: number;
   // Add other properties as needed
 }
