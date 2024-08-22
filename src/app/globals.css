@@ -2,32 +2,167 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+/* Import Yekan Bakh font family */
+@font-face {
+    font-family: "Yekan Bakh";
+    font-weight: 900;
+    src: url("/fonts/woff/YekanBakhFaNum-Black.woff") format("truetype");
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+@font-face {
+    font-family: "Yekan Bakh";
+    font-weight: 700;
+    src: url("/fonts/woff/YekanBakhFaNum-Bold.woff") format("truetype");
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+@font-face {
+    font-family: "Yekan Bakh";
+    font-weight: 800;
+    src: url("/fonts/woff/YekanBakhFaNum-ExtraBlack.woff") format("truetype");
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+@font-face {
+    font-family: "Yekan Bakh";
+    font-weight: 600;
+    src: url("/fonts/woff/YekanBakhFaNum-ExtraBold.woff") format("truetype");
+}
+
+@font-face {
+    font-family: "Yekan Bakh";
+    font-weight: 300;
+    src: url("/fonts/woff/YekanBakhFaNum-Light.woff") format("truetype");
+}
+
+@font-face {
+    font-family: "Yekan Bakh";
+    font-weight: 400;
+    src: url("/fonts/woff/YekanBakhFaNum-Regular.woff") format("truetype");
+}
+
+@font-face {
+    font-family: "Yekan Bakh";
+    font-weight: 500;
+    src: url("/fonts/woff/YekanBakhFaNum-SemiBold.woff") format("truetype");
+}
+
+@font-face {
+    font-family: "Yekan Bakh";
+    font-weight: 200;
+    src: url("/fonts/woff/YekanBakhFaNum-Thin.woff") format("truetype");
+}
+
+@font-face {
+    font-family: "Yekan Bakh";
+    font-weight: 900;
+    src: url("/fonts/woff2/YekanBakhFaNum-Black.woff2") format("truetype");
+}
+
+@font-face {
+    font-family: "Yekan Bakh";
+    font-weight: 700;
+    src: url("/fonts/woff2/YekanBakhFaNum-Bold.woff2") format("truetype");
+}
+
+@font-face {
+    font-family: "Yekan Bakh";
+    font-weight: 800;
+    src: url("/fonts/woff2/YekanBakhFaNum-ExtraBlack.woff2") format("truetype");
+}
+
+@font-face {
+    font-family: "Yekan Bakh";
+    font-weight: 600;
+    src: url("/fonts/woff2/YekanBakhFaNum-ExtraBold.woff2") format("truetype");
+}
+
+@font-face {
+    font-family: "Yekan Bakh";
+    font-weight: 300;
+    src: url("/fonts/woff2/YekanBakhFaNum-Light.woff2") format("truetype");
+}
+
+@font-face {
+    font-family: "Yekan Bakh";
+    font-weight: 400;
+    src: url("/fonts/woff2/YekanBakhFaNum-Regular.woff2") format("truetype");
+}
+
+@font-face {
+    font-family: "Yekan Bakh";
+    font-weight: 500;
+    src: url("/fonts/woff2/YekanBakhFaNum-SemiBold.woff2") format("truetype");
+}
+
+@font-face {
+    font-family: "Yekan Bakh";
+    font-weight: 200;
+    src: url("/fonts/woff2/YekanBakhFaNum-Thin.woff2") format("truetype");
+}
+
+@font-face {
+    font-family: "Allison";
+    src: url("/fonts/Allison-Regular.ttf") format("truetype");
+}
+
+
+@font-face {
+    font-family: "modam";
+    font-weight: 200;
+    src: url(/fonts/ModamFaNumWeb-Light.woff) format("woff"),
+        url(/fonts/ModamFaNumWeb-Light.woff2) format("woff2");
+}
+
+@font-face {
+    font-family: "modam";
+    font-weight: 400;
+    src: url(/fonts/ModamFaNumWeb-Medium.woff) format("woff"),
+        url(/fonts/ModamFaNumWeb-Medium.woff2) format("woff2");
+}
+
+@font-face {
+    font-family: "modam";
+    font-weight: 800;
+    src: url(/fonts/ModamFaNumWeb-Black.woff) format("woff"),
+        url(/fonts/ModamFaNumWeb-Black.woff2) format("woff2");
+}
+
+
+
+@font-face {
+    font-family: "modam";
+    font-weight: 600;
+    src: url(/fonts/ModamFaNumWeb-SemiBold.woff) format("woff"),
+        url(/fonts/ModamFaNumWeb-SemiBold.woff2) format("woff2");
+}
+
+* {
+    font-family: Yekan Bakh !important;
+    text-decoration: none !important;
+    direction: rtl;
+}
+
+/* Define scrollbar styles */
+::-webkit-scrollbar {
+    width: 5px;
+    /* Width of the entire scrollbar */
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #ffffff;
+    /* Color of the tracking area */
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #a2a2a2;
+    /* Color of the scroll thumb */
+    border-radius: 6px;
+    /* Roundness of the scroll thumb */
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #b1b1b1;
+    /* Color of the scroll thumb on hover */
 }
