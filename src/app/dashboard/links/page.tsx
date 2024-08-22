@@ -172,16 +172,16 @@ export default function Dashboard() {
                         <h4>{link.originalUrl}</h4>
 
                         <div className="flex flex-row items-center">
-                          <Calendar className="ml-1" size={18} />
-                          <span className=" text-xs">
+                          <Calendar className="ml-1 text-black/70" size={18} />
+                          <span className="text-black/70 text-xs">
                             {formattedDate}
                           </span>
                           <div className="flex flex-row items-center mr-2">
                             <MousePointerClick
-                              className="ml-1"
+                              className="ml-1 text-black/70"
                               size={18}
                             />
-                            <span className=" text-xs">
+                            <span className="text-black/70 text-xs">
                               {link.clickCount}
                             </span>
                           </div>
