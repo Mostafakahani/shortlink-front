@@ -14,7 +14,8 @@ export const API_CONFIG = {
       refreshToken: `${API_BASE_URL}/${API_VERSION}/auth/refresh-token`,
     },
     user: {
-      profile: `${API_BASE_URL}/${API_VERSION}/user/profile`,
+      check: `${API_BASE_URL}/${API_VERSION}/user/get`,
+      profile: `${API_BASE_URL}/${API_VERSION}/user/get`,
       links: `${API_BASE_URL}/${API_VERSION}/url`,
       createLink: `${API_BASE_URL}/${API_VERSION}/url/shorten`,
     },

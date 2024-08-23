@@ -17,10 +17,11 @@ export default function LoginPage() {
 
   const [phone, setPhone] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-
+    setIsLoading(true);
     try {
       const response = await fetch('/authorization/login', {
         method: 'POST',
@@ -38,26 +39,30 @@ export default function LoginPage() {
           description: data.message || 'مشکلی بوجود آمده است.',
           action: <ToastAction altText="بستن">باشه</ToastAction>,
         });
+        setIsLoading(false);
+
         return;
       }
 
-      if (data.success) {
-        console.log('Login successful:', data);
-        toast({
-          title: 'ورود موفقیت‌آمیز بود.',
-          action: <ToastAction altText="بستن">باشه</ToastAction>,
-        });
+      // if (data.success) {
+      console.log('Login successful:', data);
+      toast({
+        title: 'ورود موفقیت‌آمیز بود.',
+        action: <ToastAction altText="بستن">باشه</ToastAction>,
+      });
 
-        // Use the router to navigate to the dashboard
-        router.push(data.redirectUrl || '/dashboard');
-      } else {
-        // Handle unexpected response
-        toast({
-          title: 'خطای غیرمنتظره',
-          description: 'پاسخ سرور نامعتبر است.',
-          action: <ToastAction altText="بستن">باشه</ToastAction>,
-        });
-      }
+      // Use the router to navigate to the dashboard
+      setIsLoading(true);
+      router.push('/dashboard');
+      // } else {
+      //   // Handle unexpected response
+      //   toast({
+      //     title: 'خطای غیرمنتظره',
+      //     description: 'پاسخ سرور نامعتبر است.',
+      //     action: <ToastAction altText="بستن">باشه</ToastAction>,
+      //   });
+      //   setIsLoading(false);
+      // }
     } catch (error) {
       console.error('Error in Login:', error);
       toast({
@@ -65,6 +70,7 @@ export default function LoginPage() {
         description: 'لطفاً دوباره تلاش کنید.',
         action: <ToastAction altText="بستن">باشه</ToastAction>,
       });
+      setIsLoading(false);
     }
   };
 
@@ -116,7 +122,11 @@ export default function LoginPage() {
                     required
                   />
                 </div>
-                <Button type="submit" className="w-full">
+                <Button
+                  disabled={isLoading}
+                  type="submit"
+                  className="w-full"
+                >
                   ورود به حساب کاربری
                 </Button>
               </div>

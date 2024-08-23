@@ -248,5 +248,6 @@ export interface Link {
   originalUrl: string;
   createdAt: string;
   clickCount: number;
+  url?: string;
   // Add other properties as needed
 }
