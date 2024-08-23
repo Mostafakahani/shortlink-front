@@ -189,7 +189,15 @@ export function DialogDemo({
           </div>
         </div>
         <DialogFooter className="items-center">
-          <Button onClick={onClick} type="submit">
+          <Button
+            disabled={
+              !originalUrl ||
+              !shortCode ||
+              Object.values(error).some((err) => err !== null)
+            }
+            onClick={onClick}
+            type="submit"
+          >
             افزودن لینک
           </Button>
         </DialogFooter>

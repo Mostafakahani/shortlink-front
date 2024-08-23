@@ -51,7 +51,14 @@ export default function Dashboard() {
       toast({
         title: 'با موفقیت انجام شد.',
         description: `ساخت لینک جدید با موفقیت انجام شد. لینک شما هم اکنون با آدرس ${data.shortUrl} در دسترس می باشد.`,
-        action: <ToastAction altText="بستن">باشه</ToastAction>,
+        action: (
+          <ToastAction
+            altText="بستن"
+            onClick={async () => await getUserLinks()}
+          >
+            باشه
+          </ToastAction>
+        ),
       });
       // Handle the success response here
       // console.log('Link created successfully:', data);
@@ -172,7 +179,10 @@ export default function Dashboard() {
                         <h4>{link.originalUrl}</h4>
 
                         <div className="flex flex-row items-center">
-                          <Calendar className="ml-1 text-black/70" size={18} />
+                          <Calendar
+                            className="ml-1 text-black/70"
+                            size={18}
+                          />
                           <span className="text-black/70 text-xs">
                             {formattedDate}
                           </span>

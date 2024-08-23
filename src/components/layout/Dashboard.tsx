@@ -36,7 +36,11 @@ import {
 import { LayoutProps, NavItem } from '@/service/dtos/global.dtos';
 import { ModeToggle } from '../ui/ModeToggle';
 import { usePathname } from 'next/navigation';
-
+import removeCookie from './removeCookie';
+const handleLogout = () => {
+  removeCookie('token'); // Replace 'token' with the actual cookie key if different
+  // Optionally, add more logout logic here, like redirecting the user
+};
 export const navItems: NavItem[] = [
   {
     href: '/dashboard',
@@ -207,7 +211,9 @@ const Header: React.FC = () => (
         <DropdownMenuItem>Settings</DropdownMenuItem>
         <DropdownMenuItem>Support</DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>Logout</DropdownMenuItem>
+        <DropdownMenuItem onClick={handleLogout}>
+          Logout
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   </header>
@@ -215,11 +221,11 @@ const Header: React.FC = () => (
 
 const LayoutDashboard: React.FC<LayoutProps> = ({ children }) => {
   return (
-    <div className="grid min-h-screen max-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr] sm:overflow-y-hidden">
+    <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
       <Sidebar />
-      <div className="flex flex-col">
+      <div className="flex flex-col h-screen overflow-hidden">
         <Header />
-        <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6 bg-slate-100 dark:bg-black sm:overflow-y-auto sm:max-h-[80%]">
+        <main className="flex-1 overflow-y-auto bg-slate-100 dark:bg-black p-4 lg:p-6">
           {children}
         </main>
       </div>

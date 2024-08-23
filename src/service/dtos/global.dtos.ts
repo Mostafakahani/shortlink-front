@@ -10,3 +10,7 @@ export interface NavItem {
   label: string;
   badge?: string;
 }
+export interface LoginRequestBody {
+  phone: string;
+  password: string;
+}
