@@ -26,6 +26,7 @@ export default function LinkDetailsPage({
   const [editedOriginalUrl, setEditedOriginalUrl] = useState('');
   const [editedShortCode, setEditedShortCode] = useState('');
   const [editedName, setEditedName] = useState('');
+  const [editedPassword, setEditedPassword] = useState('');
   const { toast } = useToast();
 
   useEffect(() => {
@@ -37,6 +38,7 @@ export default function LinkDetailsPage({
           setEditedOriginalUrl(response.originalUrl);
           setEditedShortCode(response.shortCode);
           setEditedName(response.name || '');
+          setEditedPassword(response.password || '');
         } else {
           setError({ general: 'Data is not available' });
         }
@@ -61,6 +63,7 @@ export default function LinkDetailsPage({
             originalUrl: editedOriginalUrl,
             shortCode: editedShortCode,
             name: editedName,
+            password: editedPassword,
           }
         : null,
     );
@@ -69,6 +72,19 @@ export default function LinkDetailsPage({
       title: 'تغییرات ذخیره شد',
       description: 'تغییرات شما با موفقیت ذخیره شد.',
     });
+  };
+  const handleRemoveLink = async (id: string) => {
+    console.log(id);
+
+    toast({
+      title: 'تغییرات ذخیره شد',
+      description: 'تغییرات شما با موفقیت ذخیره شد.',
+    });
+    if (window.history.length > 1) {
+      router.back();
+    } else {
+      router.push('/dashboard/links');
+    }
   };
 
   const handleLinkChange = (
@@ -203,6 +219,15 @@ export default function LinkDetailsPage({
             </div>
 
             <div className="space-y-2">
+              <Label htmlFor="password">رمز لینک کوتاه</Label>
+              <Input
+                id="password"
+                value={editedPassword}
+                style={{ direction: 'ltr' }}
+                onChange={(e) => setEditedPassword(e.target.value)}
+              />
+            </div>
+            <div className="space-y-2">
               <Label htmlFor="name">اسم لینک</Label>
               <Input
                 id="name"
@@ -210,7 +235,13 @@ export default function LinkDetailsPage({
                 onChange={(e) => setEditedName(e.target.value)}
               />
             </div>
-            <div className="w-full text-left">
+            <div className="w-full flex justify-between text-left">
+              <Button
+                className="ml-2 bg-transparent text-red-600 border border-red-600 hover:bg-red-100"
+                onClick={() => handleRemoveLink(params.id)}
+              >
+                حذف لینک کوتاه
+              </Button>
               <Button onClick={handleSaveChanges}>
                 ذخیره تغییرات
               </Button>

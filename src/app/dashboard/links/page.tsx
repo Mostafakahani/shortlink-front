@@ -29,6 +29,7 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import API_CONFIG from '@/service/config/global.config';
 import { useRouter } from 'next/navigation';
 import { Link } from '@/service/dtos/global.dtos';
+import { ShareDialog } from '@/components/dashboard/ShareDialog';
 
 export default function Dashboard() {
   const router = useRouter();
@@ -88,7 +89,21 @@ export default function Dashboard() {
       }
     }
   };
-
+  const copyToClipboard = async (url: string) => {
+    try {
+      await navigator.clipboard.writeText(url);
+      toast({
+        title: 'کپی شد!',
+        description: 'لینک در کلیپ‌بورد کپی شد.',
+      });
+    } catch (err) {
+      toast({
+        title: 'خطا',
+        description: 'کپی کردن لینک با مشکل مواجه شد.',
+        variant: 'destructive',
+      });
+    }
+  };
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
@@ -202,12 +217,9 @@ export default function Dashboard() {
                   return (
                     <div
                       key={link.id}
-                      onClick={() =>
-                        router.push(`/dashboard/links/${link.id}`)
-                      }
-                      className="flex cursor-pointer flex-row justify-between sm:h-40 rounded-xl shadow-xs p-4 mb-2 bg-white dark:bg-[#121212] transition-all hover:bg-black/10 bg-black/10 dark:bg-white/10"
+                      className="flex flex-row justify-between sm:h-40 rounded-xl shadow-xs p-4 mb-2 bg-white dark:bg-[#121212] transition-all hover:bg-black/10 bg-black/10 dark:bg-white/10"
                     >
-                      <div className="flex flex-col justify-between">
+                      <div className="max-w-[80%] md:max-w-max flex flex-col justify-between">
                         <div className="flex flex-row items-center">
                           <Avatar>
                             <AvatarFallback className="text-blue-300 font-bold !text-2xl">
@@ -250,15 +262,20 @@ export default function Dashboard() {
                         </div>
                       </div>
                       <div className="flex flex-col place-content-center sm:flex-row items-end sm:items-start justify-end sm:w-1/2 mb-2">
-                        <Button
+                        {/* <Button
                           size={'sm'}
                           className="mb-2"
                           icon={<Share2Icon className="!w-4 !h-4" />}
-                        />
+                        /> */}
+                        <ShareDialog url={href.toString()} />
+
                         <Button
                           size={'sm'}
                           className="mr-2 bg-slate-200 text-black hover:text-slate-50 hidden sm:flex"
                           icon={<Edit2 className="!w-4 !h-4" />}
+                          onClick={() =>
+                            router.push(`/dashboard/links/${link.id}`)
+                          }
                         >
                           ویرایش
                         </Button>
@@ -272,6 +289,13 @@ export default function Dashboard() {
                           size={'sm'}
                           className="mr-2 bg-slate-200 text-black hover:text-slate-50 hidden sm:flex"
                           icon={<Copy className="!w-4 !h-4" />}
+                          onClick={() =>
+                            copyToClipboard(
+                              API_CONFIG.baseUrlDirect +
+                                '/' +
+                                link.shortCode,
+                            )
+                          }
                         >
                           کپی
                         </Button>

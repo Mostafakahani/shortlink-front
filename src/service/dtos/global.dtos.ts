@@ -29,6 +29,7 @@ export interface UserLinksResponse {
 }
 export interface LinkDetails {
   originalUrl: string;
+  password: string;
   shortCode: string;
   name: string;
   totalVisits: number;
