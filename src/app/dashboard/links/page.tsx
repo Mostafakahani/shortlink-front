@@ -15,23 +15,31 @@ import {
   Share2Icon,
   ShareIcon,
 } from 'lucide-react';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { DialogDemo } from '@/components/dashboard/createLinkDialog';
 import { useToast } from '@/components/ui/use-toast';
 import { ToastAction } from '@/components/ui/toast';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import Link from 'next/link';
 import API_CONFIG from '@/service/config/global.config';
+import { useRouter } from 'next/navigation';
+import { Link } from '@/service/dtos/global.dtos';
 
 export default function Dashboard() {
+  const router = useRouter();
   const { toast } = useToast();
-
   const [userLinks, setUserLinks] = useState<Link[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [originalUrl, setOriginalUrl] = useState<string | null>(null);
   const [shortCode, setShortCode] = useState<string | null>(null);
   const [password, setPassword] = useState<string | null>(null);
-
+  const [sortOption, setSortOption] = useState<string>('newest');
   const createLink = async () => {
     try {
       const response = await fetch('/create-link', {
@@ -80,6 +88,7 @@ export default function Dashboard() {
       }
     }
   };
+
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
@@ -103,8 +112,28 @@ export default function Dashboard() {
 
     fetchData();
   }, []);
-  console.log(userLinks);
-
+  const sortLinks = (links: Link[], option: string) => {
+    switch (option) {
+      case 'newest':
+        return [...links].sort(
+          (a, b) =>
+            new Date(b.createdAt).getTime() -
+            new Date(a.createdAt).getTime(),
+        );
+      case 'oldest':
+        return [...links].sort(
+          (a, b) =>
+            new Date(a.createdAt).getTime() -
+            new Date(b.createdAt).getTime(),
+        );
+      case 'mostVisited':
+        return [...links].sort((a, b) => b.clickCount - a.clickCount);
+      case 'leastVisited':
+        return [...links].sort((a, b) => a.clickCount - b.clickCount);
+      default:
+        return links;
+    }
+  };
   if (error) {
     return <div>Error fetching user links: {error}</div>;
   }
@@ -125,12 +154,30 @@ export default function Dashboard() {
         />
       </div>
       <div className="mt-5">
+        <div className="mb-4 grid gap-2">
+          <span>مرتب‌سازی بر اساس:</span>
+          <Select onValueChange={setSortOption} defaultValue="newest">
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="مرتب‌سازی بر اساس" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="newest">جدیدترین</SelectItem>
+              <SelectItem value="oldest">قدیمی‌ترین</SelectItem>
+              <SelectItem value="mostVisited">
+                پربازدیدترین
+              </SelectItem>
+              <SelectItem value="leastVisited">
+                کم‌بازدیدترین
+              </SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
         {isLoading ? (
           <li>درحال بارگذاری...</li>
         ) : (
           <div>
             {userLinks.length
-              ? userLinks.map((link) => {
+              ? sortLinks(userLinks, sortOption).map((link) => {
                   // Create the URL object
                   const href = new URL(
                     link.shortCode,
@@ -155,13 +202,16 @@ export default function Dashboard() {
                   return (
                     <div
                       key={link.id}
-                      className="flex flex-row justify-between sm:h-40 rounded-xl shadow-xs p-4 mb-2 bg-white dark:bg-[#121212]"
+                      onClick={() =>
+                        router.push(`/dashboard/links/${link.id}`)
+                      }
+                      className="flex cursor-pointer flex-row justify-between sm:h-40 rounded-xl shadow-xs p-4 mb-2 bg-white dark:bg-[#121212] transition-all hover:bg-black/10 bg-black/10 dark:bg-white/10"
                     >
                       <div className="flex flex-col justify-between">
                         <div className="flex flex-row items-center">
                           <Avatar>
                             <AvatarFallback className="text-blue-300 font-bold !text-2xl">
-                              {link.shortCode.slice(1, 2)}
+                              {link.shortCode.slice(1, 2) || 'L'}
                             </AvatarFallback>
                           </Avatar>
                           <span className="mr-2 font-bold">
@@ -174,7 +224,9 @@ export default function Dashboard() {
                           target="_blank"
                           rel="noopener noreferrer"
                         >
-                          {API_CONFIG.baseUrlDirect + link.shortCode}
+                          {API_CONFIG.baseUrlDirect +
+                            '/' +
+                            link.shortCode}
                         </a>
                         <h4>{link.originalUrl}</h4>
 
@@ -239,15 +291,4 @@ export default function Dashboard() {
       </div>
     </div>
   );
-}
-
-export interface Link {
-  id: string | number;
-  name: string;
-  shortCode: string;
-  originalUrl: string;
-  createdAt: string;
-  clickCount: number;
-  url?: string;
-  // Add other properties as needed
 }

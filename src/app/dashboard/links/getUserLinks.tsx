@@ -1,11 +1,8 @@
 'use server';
 
 import API_CONFIG from '@/service/config/global.config';
+import { Link, UserLinksResponse } from '@/service/dtos/global.dtos';
 import { cookies } from 'next/headers';
-import { Link } from './page';
-interface UserLinksResponse {
-  data: Link[];
-}
 
 export async function getUserLinks(): Promise<UserLinksResponse | null> {
   const tokenCookie = cookies().get('token');

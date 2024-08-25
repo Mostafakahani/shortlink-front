@@ -13,11 +13,15 @@ export const API_CONFIG = {
       logout: `${API_BASE_URL}/${API_VERSION}/auth/logout`,
       refreshToken: `${API_BASE_URL}/${API_VERSION}/auth/refresh-token`,
     },
+    route: {
+      get: `${API_BASE_URL}/${API_VERSION}/url`,
+    },
     user: {
       check: `${API_BASE_URL}/${API_VERSION}/user/get`,
       profile: `${API_BASE_URL}/${API_VERSION}/user/get`,
       links: `${API_BASE_URL}/${API_VERSION}/url`,
       createLink: `${API_BASE_URL}/${API_VERSION}/url/shorten`,
+      detailsLink: `${API_BASE_URL}/${API_VERSION}/url/stats`,
     },
     posts: {
       getAll: `${API_BASE_URL}/${API_VERSION}/posts`,

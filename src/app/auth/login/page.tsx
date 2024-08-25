@@ -53,7 +53,7 @@ export default function LoginPage() {
 
       // Use the router to navigate to the dashboard
       setIsLoading(true);
-      router.push('/dashboard');
+      window.location.href = '/dashboard';
       // } else {
       //   // Handle unexpected response
       //   toast({
