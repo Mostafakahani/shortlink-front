@@ -30,6 +30,12 @@ import API_CONFIG from '@/service/config/global.config';
 import { useRouter } from 'next/navigation';
 import { Link } from '@/service/dtos/global.dtos';
 import { ShareDialog } from '@/components/dashboard/ShareDialog';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 
 export default function Dashboard() {
   const router = useRouter();
@@ -41,6 +47,9 @@ export default function Dashboard() {
   const [shortCode, setShortCode] = useState<string | null>(null);
   const [password, setPassword] = useState<string | null>(null);
   const [sortOption, setSortOption] = useState<string>('newest');
+  const [isUpdated, setUpdated] = useState<boolean>(false);
+  const [open, setOpen] = useState<boolean>(false);
+
   const createLink = async () => {
     try {
       const response = await fetch('/create-link', {
@@ -60,15 +69,11 @@ export default function Dashboard() {
       toast({
         title: 'با موفقیت انجام شد.',
         description: `ساخت لینک جدید با موفقیت انجام شد. لینک شما هم اکنون با آدرس ${data.shortUrl} در دسترس می باشد.`,
-        action: (
-          <ToastAction
-            altText="بستن"
-            onClick={async () => await getUserLinks()}
-          >
-            باشه
-          </ToastAction>
-        ),
+        action: <ToastAction altText="بستن">باشه</ToastAction>,
       });
+      setUpdated(!isUpdated);
+      setOpen(false);
+
       // Handle the success response here
       // console.log('Link created successfully:', data);
     } catch (error: unknown) {
@@ -126,7 +131,7 @@ export default function Dashboard() {
     };
 
     fetchData();
-  }, []);
+  }, [isUpdated]);
   const sortLinks = (links: Link[], option: string) => {
     switch (option) {
       case 'newest':
@@ -166,6 +171,8 @@ export default function Dashboard() {
           password={password}
           onChangePassword={setPassword}
           onClick={createLink}
+          open={open}
+          setOpen={setOpen}
         />
       </div>
       <div className="mt-5">
@@ -219,7 +226,7 @@ export default function Dashboard() {
                       key={link.id}
                       className="flex flex-row justify-between sm:h-40 rounded-xl shadow-xs p-4 mb-2 bg-white dark:bg-[#121212] transition-all hover:bg-black/10 bg-black/10 dark:bg-white/10"
                     >
-                      <div className="max-w-[80%] md:max-w-max flex flex-col justify-between">
+                      <div className="max-w-[80%] md:max-w-[60%] flex flex-col justify-between">
                         <div className="flex flex-row items-center">
                           <Avatar>
                             <AvatarFallback className="text-blue-300 font-bold !text-2xl">
@@ -231,7 +238,7 @@ export default function Dashboard() {
                           </span>
                         </div>
                         <a
-                          className="text-blue-600"
+                          className="text-blue-600 text-ellipsis overflow-hidden"
                           href={href.toString()}
                           target="_blank"
                           rel="noopener noreferrer"
@@ -240,7 +247,24 @@ export default function Dashboard() {
                             '/' +
                             link.shortCode}
                         </a>
-                        <h4>{link.originalUrl}</h4>
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <h4
+                                style={{ direction: 'ltr' }}
+                                className="text-ellipsis !text-right overflow-hidden cursor-pointer sm:whitespace-nowrap sm:max-w-full max-h-[50px]"
+                                onClick={() =>
+                                  copyToClipboard(link.originalUrl)
+                                }
+                              >
+                                {link.originalUrl}
+                              </h4>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <p>کپی</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
 
                         <div className="flex flex-row items-center">
                           <Calendar
@@ -283,6 +307,9 @@ export default function Dashboard() {
                           size={'sm'}
                           className="mr-2 mb-2 bg-slate-200 text-black hover:text-slate-50 sm:hidden"
                           icon={<Edit2 className="!w-4 !h-4 " />}
+                          onClick={() =>
+                            router.push(`/dashboard/links/${link.id}`)
+                          }
                         />
 
                         <Button
@@ -303,6 +330,13 @@ export default function Dashboard() {
                           size={'sm'}
                           className="mr-2 mb-2 bg-slate-200 text-black hover:text-slate-50 sm:hidden"
                           icon={<Copy className="!w-4 !h-4" />}
+                          onClick={() =>
+                            copyToClipboard(
+                              API_CONFIG.baseUrlDirect +
+                                '/' +
+                                link.shortCode,
+                            )
+                          }
                         />
                       </div>
                     </div>

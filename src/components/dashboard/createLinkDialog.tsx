@@ -21,6 +21,8 @@ interface DialogDemoProps {
   password: string | null;
   onChangePassword: (value: string) => void;
   onClick: () => void;
+  open: boolean;
+  setOpen: (value: boolean) => void;
 }
 
 export function DialogDemo({
@@ -31,6 +33,8 @@ export function DialogDemo({
   password,
   onChangePassword,
   onClick,
+  open,
+  setOpen,
 }: DialogDemoProps) {
   const [error, setError] = useState<{
     [key: string]: string | null;
@@ -44,9 +48,9 @@ export function DialogDemo({
   ) => {
     const value = event.target.value.trim();
 
-    // URL pattern for validation
+    // More permissive URL pattern for validation
     const urlPattern =
-      /^(https?:\/\/)?([\w-]+\.)+[\w-]+(\/[\w- ;,./?%&=]*)?$/i;
+      /^(https?:\/\/)?([\w-]+\.)+[\w-]+(\/[\w\-._~:/?#[\]@!$&'()*+,;=% ]*)?$/i;
     const isValidUrl = urlPattern.test(value);
 
     if (!isValidUrl && value.length > 0) {
@@ -102,9 +106,13 @@ export function DialogDemo({
   };
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button icon={<Plus />} size={'sm'}>
+        <Button
+          onClick={() => setOpen(true)}
+          icon={<Plus />}
+          size={'sm'}
+        >
           ساخت لینک جدید
         </Button>
       </DialogTrigger>
@@ -129,7 +137,7 @@ export function DialogDemo({
             <Input
               autoComplete="off"
               id="link"
-              placeholder="Enter URL (e.g., https://google.com)"
+              placeholder="لینک را وارد کنید (مثال: https://google.com)"
               type="text"
               value={originalUrl ?? ''}
               className={`col-span-3 appearance-none ${
@@ -178,8 +186,9 @@ export function DialogDemo({
               رمز لینک
             </Label>
             <Input
+              autoComplete="off"
               id="password"
-              type="password"
+              type="text"
               placeholder="********"
               className="col-span-3"
               style={{ direction: 'ltr' }}

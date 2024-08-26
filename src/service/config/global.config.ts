@@ -22,6 +22,8 @@ export const API_CONFIG = {
       links: `${API_BASE_URL}/${API_VERSION}/url`,
       createLink: `${API_BASE_URL}/${API_VERSION}/url/shorten`,
       detailsLink: `${API_BASE_URL}/${API_VERSION}/url/stats`,
+      removeLink: `${API_BASE_URL}/${API_VERSION}/url/link`,
+      updateLink: `${API_BASE_URL}/${API_VERSION}/url/link`,
     },
     posts: {
       getAll: `${API_BASE_URL}/${API_VERSION}/posts`,

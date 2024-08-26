@@ -21,6 +21,7 @@ export interface Link {
   originalUrl: string;
   createdAt: string;
   clickCount: number;
+  password: string;
   url?: string;
 }
 

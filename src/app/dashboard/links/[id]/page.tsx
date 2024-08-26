@@ -9,6 +9,8 @@ import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
 import { ArrowLeftIcon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { removeLink } from './removeLink';
+import { saveChanges } from './saveChanges';
 
 export default function LinkDetailsPage({
   params,
@@ -24,7 +26,12 @@ export default function LinkDetailsPage({
     [key: string]: string | null;
   }>({});
   const [editedOriginalUrl, setEditedOriginalUrl] = useState('');
-  const [editedShortCode, setEditedShortCode] = useState('');
+  const [editedShortCode, setEditedShortCode] = useState(() => {
+    const initialCode = linkDetails?.shortCode || '';
+    return initialCode.startsWith('/')
+      ? initialCode
+      : '/' + initialCode;
+  });
   const [editedName, setEditedName] = useState('');
   const [editedPassword, setEditedPassword] = useState('');
   const { toast } = useToast();
@@ -36,7 +43,15 @@ export default function LinkDetailsPage({
         if (response) {
           setLinkDetails(response);
           setEditedOriginalUrl(response.originalUrl);
-          setEditedShortCode(response.shortCode);
+
+          // Ensure shortCode always starts with "/"
+          const formattedShortCode = response.shortCode.startsWith(
+            '/',
+          )
+            ? response.shortCode
+            : '/' + response.shortCode;
+          setEditedShortCode(formattedShortCode);
+
           setEditedName(response.name || '');
           setEditedPassword(response.password || '');
         } else {
@@ -56,30 +71,47 @@ export default function LinkDetailsPage({
   }, [params.id]);
 
   const handleSaveChanges = async () => {
-    setLinkDetails((prev) =>
-      prev
-        ? {
-            ...prev,
-            originalUrl: editedOriginalUrl,
-            shortCode: editedShortCode,
-            name: editedName,
-            password: editedPassword,
-          }
-        : null,
-    );
+    try {
+      const response = await saveChanges(params.id, {
+        originalUrl: editedOriginalUrl,
+        shortCode: editedShortCode,
+        name: editedName,
+        password: editedPassword,
+      });
 
-    toast({
-      title: 'تغییرات ذخیره شد',
-      description: 'تغییرات شما با موفقیت ذخیره شد.',
-    });
+      console.log({ response });
+
+      toast({
+        title: 'تغییرات ذخیره شد',
+        description: 'تغییرات شما با موفقیت ذخیره شد.',
+      });
+    } catch (error) {
+      toast({
+        title: 'مشکلی بوجود آمده است.',
+        description:
+          'لطفا بعدا مجدد تلاش کنید. در فرایند حذف مشکلی رخ داده است.',
+      });
+      console.log(
+        'error in handleSaveChanges for update links: ',
+        error,
+      );
+    }
   };
   const handleRemoveLink = async (id: string) => {
-    console.log(id);
-
-    toast({
-      title: 'تغییرات ذخیره شد',
-      description: 'تغییرات شما با موفقیت ذخیره شد.',
-    });
+    try {
+      const response = await removeLink(id);
+      toast({
+        title: 'تغییرات ذخیره شد',
+        description: 'تغییرات شما با موفقیت ذخیره شد.',
+      });
+    } catch (error) {
+      toast({
+        title: 'مشکلی بوجود آمده است.',
+        description:
+          'لطفا بعدا مجدد تلاش کنید. در فرایند حذف مشکلی رخ داده است.',
+      });
+      console.log('error in handleRemoveLink: ', error);
+    }
     if (window.history.length > 1) {
       router.back();
     } else {
@@ -119,18 +151,26 @@ export default function LinkDetailsPage({
   const handleShortCodeChange = (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
-    const value = event.target.value.trim();
+    let value = event.target.value.trim();
+
+    // Ensure the value always starts with "/"
+    if (!value.startsWith('/')) {
+      value = '/' + value;
+    }
+
+    // Remove any duplicate "/" at the beginning
+    value = value.replace(/^\/+/, '/');
 
     // Regex pattern to allow only / followed by alphanumeric and some special characters
     const shortCodePattern = /^\/[a-zA-Z0-9-_]*$/;
     const isValidShortCode = shortCodePattern.test(value);
 
-    if (!isValidShortCode && value.length > 0) {
+    if (!isValidShortCode && value.length > 1) {
       setError((prev) => ({
         ...prev,
         shortUrl: 'لطفا آدرس کوتاه معتبر وارد کنید. (مثال: /example)',
       }));
-    } else if (value.length === 0) {
+    } else if (value.length === 1) {
       setError((prev) => ({
         ...prev,
         shortUrl: 'لطفا مقدار رو با دقت پر کنید.',
