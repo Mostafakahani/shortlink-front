@@ -1,10 +1,10 @@
-import Image from "next/image";
-import PlanetImg from "/public/images/planet.png";
-import PlanetOverlayImg from "/public/images/planet-overlay.svg";
-import PlanetTagImg01 from "/public/images/planet-tag-01.png";
-import PlanetTagImg02 from "/public/images/planet-tag-02.png";
-import PlanetTagImg03 from "/public/images/planet-tag-03.png";
-import PlanetTagImg04 from "/public/images/planet-tag-04.png";
+import Image from 'next/image';
+import PlanetImg from '/public/images/planet.png';
+import PlanetOverlayImg from '/public/images/planet-overlay.svg';
+import PlanetTagImg01 from '/public/images/planet-tag-01.png';
+import PlanetTagImg02 from '/public/images/planet-tag-02.png';
+import PlanetTagImg03 from '/public/images/planet-tag-03.png';
+import PlanetTagImg04 from '/public/images/planet-tag-04.png';
 
 export default function FeaturesPlanet() {
   return (
@@ -14,7 +14,7 @@ export default function FeaturesPlanet() {
           {/* Section header */}
           <div className="mx-auto max-w-3xl pb-16 text-center md:pb-20">
             <h2 className="text-3xl font-bold text-gray-200 md:text-4xl">
-              Simple helps your teams work more efficiently together
+              قابل دسترس در سراسر دنیا
             </h2>
           </div>
           {/* Planet */}
@@ -28,7 +28,10 @@ export default function FeaturesPlanet() {
                   height={400}
                   alt="Planet"
                 />
-                <div className="pointer-events-none" aria-hidden="true">
+                <div
+                  className="pointer-events-none"
+                  aria-hidden="true"
+                >
                   <Image
                     className="absolute -right-64 -top-20 z-10 max-w-none"
                     src={PlanetOverlayImg}
@@ -85,9 +88,9 @@ export default function FeaturesPlanet() {
                 <span>Instant Analytics</span>
               </h3>
               <p className="text-[15px] text-gray-400">
-                Collect essential insights about how visitors are using your
-                site with in-depth page view metrics like pages, referring
-                sites, and more.
+                Collect essential insights about how visitors are
+                using your site with in-depth page view metrics like
+                pages, referring sites, and more.
               </p>
             </article>
             <article>
@@ -103,9 +106,9 @@ export default function FeaturesPlanet() {
                 <span>Metadata</span>
               </h3>
               <p className="text-[15px] text-gray-400">
-                Collect essential insights about how visitors are using your
-                site with in-depth page view metrics like pages, referring
-                sites, and more.
+                Collect essential insights about how visitors are
+                using your site with in-depth page view metrics like
+                pages, referring sites, and more.
               </p>
             </article>
             <article>
@@ -125,9 +128,9 @@ export default function FeaturesPlanet() {
                 <span>SEO &amp; Performance</span>
               </h3>
               <p className="text-[15px] text-gray-400">
-                Collect essential insights about how visitors are using your
-                site with in-depth page view metrics like pages, referring
-                sites, and more.
+                Collect essential insights about how visitors are
+                using your site with in-depth page view metrics like
+                pages, referring sites, and more.
               </p>
             </article>
             <article>
@@ -143,9 +146,9 @@ export default function FeaturesPlanet() {
                 <span>Custom Code</span>
               </h3>
               <p className="text-[15px] text-gray-400">
-                Collect essential insights about how visitors are using your
-                site with in-depth page view metrics like pages, referring
-                sites, and more.
+                Collect essential insights about how visitors are
+                using your site with in-depth page view metrics like
+                pages, referring sites, and more.
               </p>
             </article>
             <article>
@@ -161,9 +164,9 @@ export default function FeaturesPlanet() {
                 <span>Localization</span>
               </h3>
               <p className="text-[15px] text-gray-400">
-                Collect essential insights about how visitors are using your
-                site with in-depth page view metrics like pages, referring
-                sites, and more.
+                Collect essential insights about how visitors are
+                using your site with in-depth page view metrics like
+                pages, referring sites, and more.
               </p>
             </article>
             <article>
@@ -179,9 +182,9 @@ export default function FeaturesPlanet() {
                 <span>Canonical URL</span>
               </h3>
               <p className="text-[15px] text-gray-400">
-                Collect essential insights about how visitors are using your
-                site with in-depth page view metrics like pages, referring
-                sites, and more.
+                Collect essential insights about how visitors are
+                using your site with in-depth page view metrics like
+                pages, referring sites, and more.
               </p>
             </article>
           </div>

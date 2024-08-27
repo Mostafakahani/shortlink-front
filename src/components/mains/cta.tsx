@@ -1,5 +1,5 @@
-import Image from "next/image";
-import Stripes from "/public/images/stripes-dark.svg";
+import Image from 'next/image';
+import Stripes from '/public/images/stripes-dark.svg';
 
 export default function Cta() {
   return (
@@ -31,7 +31,7 @@ export default function Cta() {
           </div>
           <div className="px-4 py-12 md:px-12 md:py-20">
             <h2 className="mb-6 border-y text-3xl font-bold text-gray-200 [border-image:linear-gradient(to_right,transparent,theme(colors.slate.700/.7),transparent)1] md:mb-12 md:text-4xl">
-              Create your next project with Simple
+              کوتاه کننده لینک بدون احرازهویت
             </h2>
             <div className="mx-auto max-w-xs sm:flex sm:max-w-none sm:justify-center">
               <a
@@ -39,8 +39,8 @@ export default function Cta() {
                 href="#0"
               >
                 <span className="relative inline-flex items-center">
-                  Start Free Trial{" "}
-                  <span className="ml-1 tracking-normal text-blue-300 transition-transform group-hover:translate-x-0.5">
+                  شروع مسیر{' '}
+                  <span className="mr-1 tracking-normal text-blue-300 transition-transform group-hover:translate-x-0.5">
                     -&gt;
                   </span>
                 </span>

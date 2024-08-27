@@ -1,3 +1,4 @@
+'use client';
 import Image from 'next/image';
 import PageIllustration from '@/components/mains/page-illustration';
 import Avatar01 from '/public/images/avatar-01.jpg';
@@ -6,8 +7,33 @@ import Avatar03 from '/public/images/avatar-03.jpg';
 import Avatar04 from '/public/images/avatar-04.jpg';
 import Avatar05 from '/public/images/avatar-05.jpg';
 import Avatar06 from '/public/images/avatar-06.jpg';
+import { Input } from '../ui/input';
+import { Label } from '../ui/label';
+import { Eye, EyeOff } from 'lucide-react';
+import { useRef, useState } from 'react';
+import { Button } from '../ui/button';
 
 export default function HeroHome() {
+  const linkRef = useRef<HTMLDivElement>(null);
+  const [showPassword, setShowPassword] = useState<Boolean>(false);
+
+  const handleScrollToLink = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+  ) => {
+    e.preventDefault();
+    if (linkRef.current) {
+      const yOffset = -100; // Adjust this value to scroll further down
+      const y =
+        linkRef.current.getBoundingClientRect().top +
+        window.pageYOffset +
+        yOffset;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
   return (
     <section className="relative">
       <PageIllustration />
@@ -81,7 +107,9 @@ export default function HeroHome() {
                 data-aos-delay={300}
               >
                 وب سایت ویکسا ارائه خدمات کوتاه کننده و آنالیزور لینک
-                های شما
+                های شما.
+                <br />
+                برای مشاهده آنالیزور باید ثبت نام کنید.
               </p>
               <div className="relative before:absolute before:inset-0 before:border-y before:[border-image:linear-gradient(to_left,transparent,theme(colors.slate.300/.8),transparent)1]">
                 <div
@@ -97,8 +125,9 @@ export default function HeroHome() {
                   </a>
 
                   <a
-                    className="btn group mb-4 w-full bg-gradient-to-t from-blue-600 to-blue-500 bg-[length:100%_100%] bg-[bottom] text-white shadow hover:bg-[length:100%_150%] sm:mb-0 sm:w-auto"
-                    href="#0"
+                    className="btn group mt-4 sm:mt-0 w-full bg-gradient-to-t from-blue-600 to-blue-500 bg-[length:100%_100%] bg-[bottom] text-white shadow hover:bg-[length:100%_150%] sm:mb-0 sm:w-auto"
+                    href="#link"
+                    onClick={handleScrollToLink}
                   >
                     <span className="relative inline-flex items-center">
                       ساخت لینک کوتاه{' '}
@@ -113,41 +142,102 @@ export default function HeroHome() {
           </div>
           {/* Hero image */}
           <div
-            className="mx-auto max-w-3xl"
+            ref={linkRef}
+            className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8"
             data-aos="zoom-y-out"
             data-aos-delay={600}
+            id="link"
           >
-            <div className="relative aspect-video rounded-2xl bg-gray-900 px-5 py-3 shadow-xl before:pointer-events-none before:absolute before:-inset-5 before:border-y before:[border-image:linear-gradient(to_left,transparent,theme(colors.slate.300/.8),transparent)1] after:absolute after:-inset-5 after:-z-10 after:border-x after:[border-image:linear-gradient(to_bottom,transparent,theme(colors.slate.300/.8),transparent)1]">
-              <div className="relative mb-8 flex items-center justify-between before:block before:h-[9px] before:w-[41px] before:bg-[length:16px_9px] before:[background-image:radial-gradient(circle_at_4.5px_4.5px,_theme(colors.gray.600)_4.5px,_transparent_0)] after:w-[41px]">
-                <span className="text-[13px] font-medium text-white">
-                  cruip.com
-                </span>
+            <form
+              autoComplete="off"
+              onSubmit={(e) => e.preventDefault()}
+              className="space-y-4"
+            >
+              <div className="w-full">
+                <Label
+                  htmlFor="originalLink"
+                  className="text-right block mb-1"
+                >
+                  آدرسی را که می‌خواهید کوتاه شود را وارد کنید:
+                </Label>
+                <Input
+                  autoComplete="off"
+                  autoCorrect="off"
+                  autoCapitalize="off"
+                  spellCheck="false"
+                  autoFocus={false}
+                  id="originalLink"
+                  name="originalLink"
+                  style={{ direction: 'ltr' }}
+                  placeholder="https://example-long-url.net/example"
+                  className="w-full rounded-lg"
+                />
               </div>
-              <div className="font-mono text-gray-500 [&_span]:opacity-0">
-                <span className="animate-[code-1_10s_infinite] text-gray-200">
-                  npm login
-                </span>{' '}
-                <span className="animate-[code-2_10s_infinite]">
-                  --registry=https://npm.pkg.github.com
-                </span>
-                <br />
-                <span className="animate-[code-3_10s_infinite]">
-                  --scope=@phanatic
-                </span>{' '}
-                <span className="animate-[code-4_10s_infinite]">
-                  Successfully logged-in.
-                </span>
-                <br />
-                <br />
-                <span className="animate-[code-5_10s_infinite] text-gray-200">
-                  npm publish
-                </span>
-                <br />
-                <span className="animate-[code-6_10s_infinite]">
-                  Package published.
-                </span>
+
+              <div className="flex flex-col sm:flex-row gap-4">
+                <div className="w-full sm:w-1/2">
+                  <Label
+                    htmlFor="shortLink1"
+                    className="text-right block mb-1"
+                  >
+                    آدرس کوتاه:
+                  </Label>
+                  <Input
+                    autoComplete="off"
+                    autoCorrect="off"
+                    autoCapitalize="off"
+                    spellCheck="false"
+                    autoFocus={false}
+                    id="shortLink1"
+                    name="shortLink1"
+                    style={{ direction: 'ltr' }}
+                    placeholder="https://short.url/example1"
+                    className="w-full rounded-lg"
+                  />
+                </div>
+
+                <div className="w-full sm:w-1/2">
+                  <Label
+                    htmlFor="shortLink2"
+                    className="text-right block mb-1"
+                  >
+                    رمز آدرس کوتاه:
+                  </Label>
+                  <div className="relative">
+                    <Input
+                      autoComplete="new-password"
+                      autoCorrect="off"
+                      autoCapitalize="off"
+                      spellCheck="false"
+                      autoFocus={false}
+                      id="shortLink2"
+                      name="shortLink2"
+                      type={showPassword ? 'text' : 'password'}
+                      style={{ direction: 'ltr' }}
+                      placeholder="********"
+                      className="w-full pr-10 rounded-lg"
+                    />
+                    <button
+                      type="button"
+                      className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                      onClick={togglePasswordVisibility}
+                    >
+                      {showPassword ? (
+                        <EyeOff className="h-5 w-5 text-gray-400" />
+                      ) : (
+                        <Eye className="h-5 w-5 text-gray-400" />
+                      )}
+                    </button>
+                  </div>
+                </div>
               </div>
-            </div>
+
+              <div className="flex justify-center sm:justify-end">
+                <Button className="w-full sm:w-auto rounded-lg">
+                  کوتاه کن
+                </Button>
+              </div>
+            </form>
           </div>
         </div>
       </div>
