@@ -2,9 +2,9 @@ import Image from 'next/image';
 import PlanetImg from '/public/images/planet.png';
 import PlanetOverlayImg from '/public/images/planet-overlay.svg';
 import PlanetTagImg01 from '/public/images/planet-tag-01.png';
-import PlanetTagImg02 from '/public/images/planet-tag-02.png';
-import PlanetTagImg03 from '/public/images/planet-tag-03.png';
-import PlanetTagImg04 from '/public/images/planet-tag-04.png';
+import PlanetTagImg02 from '/public/images/planet-tag-01.png';
+import PlanetTagImg03 from '/public/images/planet-tag-01.png';
+import PlanetTagImg04 from '/public/images/planet-tag-01.png';
 
 export default function FeaturesPlanet() {
   return (
@@ -78,37 +78,36 @@ export default function FeaturesPlanet() {
             <article>
               <h3 className="mb-2 flex items-center space-x-2 font-medium text-gray-200">
                 <svg
-                  className="fill-blue-500"
+                  className="fill-blue-500 ml-2"
                   xmlns="http://www.w3.org/2000/svg"
                   width={16}
                   height={16}
                 >
                   <path d="M2 4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V4Zm2-4a4 4 0 0 0-4 4v8a4 4 0 0 0 4 4h8a4 4 0 0 0 4-4V4a4 4 0 0 0-4-4H4Zm1 10a1 1 0 1 0 0 2h6a1 1 0 1 0 0-2H5Z" />
                 </svg>
-                <span>Instant Analytics</span>
+                <span>آنالیز ورودی لینک ها</span>
               </h3>
-              <p className="text-[15px] text-gray-400">
-                Collect essential insights about how visitors are
-                using your site with in-depth page view metrics like
-                pages, referring sites, and more.
+              <p className="text-sm text-gray-400">
+                با ورود هر کاربر به لینک شما اطلاعاتی از این کاربر در
+                محتوای لینک شما ذخیره خواهد شد و میتوانید بصورت یک
+                آمار بروز و لحظه ای برآورد داشته باشید.
               </p>
             </article>
             <article>
               <h3 className="mb-2 flex items-center space-x-2 font-medium text-gray-200">
                 <svg
-                  className="fill-blue-500"
+                  className="fill-blue-500 ml-2"
                   xmlns="http://www.w3.org/2000/svg"
                   width={16}
                   height={16}
                 >
                   <path d="M14.29 2.614a1 1 0 0 0-1.58-1.228L6.407 9.492l-3.199-3.2a1 1 0 1 0-1.414 1.415l4 4a1 1 0 0 0 1.496-.093l7-9ZM1 14a1 1 0 1 0 0 2h14a1 1 0 1 0 0-2H1Z" />
                 </svg>
-                <span>Metadata</span>
+                <span>کد های کوتاه متنوع</span>
               </h3>
-              <p className="text-[15px] text-gray-400">
-                Collect essential insights about how visitors are
-                using your site with in-depth page view metrics like
-                pages, referring sites, and more.
+              <p className="text-sm text-gray-400">
+                قابلیت دسترسی به لینک های کوتاه متنوع رایگان که به
+                راحتی و آسودگی و بدون پرداخت هزینه و احرازهویت اجباری
               </p>
             </article>
             <article>
@@ -125,15 +124,14 @@ export default function FeaturesPlanet() {
                   />
                   <path d="M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6Zm0-2a1 1 0 1 0 0-2 1 1 0 0 0 0 2Zm1.715-6.752a1 1 0 0 1 .57-1.916 8.014 8.014 0 0 1 5.383 5.383 1 1 0 1 1-1.916.57 6.014 6.014 0 0 0-4.037-4.037Zm4.037 7.467a1 1 0 1 1 1.916.57 8.014 8.014 0 0 1-5.383 5.383 1 1 0 1 1-.57-1.916 6.014 6.014 0 0 0 4.037-4.037Zm-7.467 4.037a1 1 0 1 1-.57 1.916 8.014 8.014 0 0 1-5.383-5.383 1 1 0 1 1 1.916-.57 6.014 6.014 0 0 0 4.037 4.037Z" />
                 </svg>
-                <span>SEO &amp; Performance</span>
+                <span>بدون احرازهویت</span>
               </h3>
-              <p className="text-[15px] text-gray-400">
-                Collect essential insights about how visitors are
-                using your site with in-depth page view metrics like
-                pages, referring sites, and more.
+              <p className="text-sm text-gray-400">
+                شما میتوانید بدون احرازهویت دسترسی به تمامی لینک های
+                کوتاه برای ساخت و اتصال به صورت رمزدار داشته باشید.
               </p>
             </article>
-            <article>
+            {/* <article>
               <h3 className="mb-2 flex items-center space-x-2 font-medium text-gray-200">
                 <svg
                   className="fill-blue-500"
@@ -145,7 +143,7 @@ export default function FeaturesPlanet() {
                 </svg>
                 <span>Custom Code</span>
               </h3>
-              <p className="text-[15px] text-gray-400">
+              <p className="text-sm text-gray-400">
                 Collect essential insights about how visitors are
                 using your site with in-depth page view metrics like
                 pages, referring sites, and more.
@@ -163,7 +161,7 @@ export default function FeaturesPlanet() {
                 </svg>
                 <span>Localization</span>
               </h3>
-              <p className="text-[15px] text-gray-400">
+              <p className="text-sm text-gray-400">
                 Collect essential insights about how visitors are
                 using your site with in-depth page view metrics like
                 pages, referring sites, and more.
@@ -181,12 +179,12 @@ export default function FeaturesPlanet() {
                 </svg>
                 <span>Canonical URL</span>
               </h3>
-              <p className="text-[15px] text-gray-400">
+              <p className="text-sm text-gray-400">
                 Collect essential insights about how visitors are
                 using your site with in-depth page view metrics like
                 pages, referring sites, and more.
               </p>
-            </article>
+            </article> */}
           </div>
         </div>
       </div>

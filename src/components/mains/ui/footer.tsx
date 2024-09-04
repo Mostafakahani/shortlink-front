@@ -1,5 +1,7 @@
+'use client';
 import Link from 'next/link';
 import Logo from './logo';
+import { useRouter } from 'next/navigation';
 
 export default function Footer({
   border = false,
@@ -23,20 +25,21 @@ export default function Footer({
               <Logo />
             </div>
             <div className="text-sm text-gray-600">
-              &copy; Cruip.com - All rights reserved.
+              &copy; {window.location.hostname} - تمام اطلاعات نزد ما
+              محفوظ می ماند.
             </div>
           </div>
 
           {/* 2nd block */}
           <div className="space-y-2 sm:col-span-6 md:col-span-3 lg:col-span-2">
-            <h3 className="text-sm font-medium">Product</h3>
+            <h3 className="text-sm font-medium">محصولات</h3>
             <ul className="space-y-2 text-sm">
               <li>
                 <Link
                   className="text-gray-600 transition hover:text-gray-900"
-                  href="#0"
+                  href="#link"
                 >
-                  Features
+                  ساخت لینک
                 </Link>
               </li>
               <li>
@@ -44,7 +47,15 @@ export default function Footer({
                   className="text-gray-600 transition hover:text-gray-900"
                   href="#0"
                 >
-                  Integrations
+                  ساخت QrCode
+                </Link>
+              </li>
+              <li>
+                <Link
+                  className="text-gray-600 transition hover:text-gray-900"
+                  href="/dashboard"
+                >
+                  آنالیز لینک
                 </Link>
               </li>
               <li>
@@ -52,23 +63,7 @@ export default function Footer({
                   className="text-gray-600 transition hover:text-gray-900"
                   href="#0"
                 >
-                  Pricing & Plans
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className="text-gray-600 transition hover:text-gray-900"
-                  href="#0"
-                >
-                  Changelog
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className="text-gray-600 transition hover:text-gray-900"
-                  href="#0"
-                >
-                  Our method
+                  آخرین تغییرات
                 </Link>
               </li>
             </ul>
@@ -76,14 +71,14 @@ export default function Footer({
 
           {/* 3rd block */}
           <div className="space-y-2 sm:col-span-6 md:col-span-3 lg:col-span-2">
-            <h3 className="text-sm font-medium">Company</h3>
+            <h3 className="text-sm font-medium">پیوند های ما</h3>
             <ul className="space-y-2 text-sm">
               <li>
                 <Link
                   className="text-gray-600 transition hover:text-gray-900"
                   href="#0"
                 >
-                  About us
+                  درباره ما
                 </Link>
               </li>
               <li>
@@ -91,7 +86,7 @@ export default function Footer({
                   className="text-gray-600 transition hover:text-gray-900"
                   href="#0"
                 >
-                  Diversity & Inclusion
+                  ارتباط با ما
                 </Link>
               </li>
               <li>
@@ -99,31 +94,15 @@ export default function Footer({
                   className="text-gray-600 transition hover:text-gray-900"
                   href="#0"
                 >
-                  Blog
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className="text-gray-600 transition hover:text-gray-900"
-                  href="#0"
-                >
-                  Careers
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className="text-gray-600 transition hover:text-gray-900"
-                  href="#0"
-                >
-                  Financial statements
+                  وبلاگ
                 </Link>
               </li>
             </ul>
           </div>
 
           {/* 4th block */}
-          <div className="space-y-2 sm:col-span-6 md:col-span-3 lg:col-span-2">
-            <h3 className="text-sm font-medium">Resources</h3>
+          {/* <div className="space-y-2 sm:col-span-6 md:col-span-3 lg:col-span-2">
+            <h3 className="text-sm font-medium">لینک های مفید</h3>
             <ul className="space-y-2 text-sm">
               <li>
                 <Link
@@ -150,11 +129,11 @@ export default function Footer({
                 </Link>
               </li>
             </ul>
-          </div>
+          </div> */}
 
           {/* 5th block */}
           <div className="space-y-2 sm:col-span-6 md:col-span-3 lg:col-span-2">
-            <h3 className="text-sm font-medium">Social</h3>
+            <h3 className="text-sm font-medium">فضای مجازی</h3>
             <ul className="flex gap-1">
               <li>
                 <Link

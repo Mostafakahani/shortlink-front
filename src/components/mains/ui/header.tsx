@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 
-import Link from "next/link";
-import Logo from "./logo";
+import Link from 'next/link';
+import Logo from './logo';
 
 export default function Header() {
   const [top, setTop] = useState<boolean>(true);
@@ -15,8 +15,8 @@ export default function Header() {
 
   useEffect(() => {
     scrollHandler();
-    window.addEventListener("scroll", scrollHandler);
-    return () => window.removeEventListener("scroll", scrollHandler);
+    window.addEventListener('scroll', scrollHandler);
+    return () => window.removeEventListener('scroll', scrollHandler);
   }, [top]);
 
   return (
@@ -26,13 +26,30 @@ export default function Header() {
           {/* Site branding */}
           <div className="flex flex-1 items-center">
             <Logo />
+            {/* <div className="mr-10">
+              <ul className="flex flex-1 items-center justify-end gap-3">
+                <Link
+                  href="/signin"
+                  className="p-1 rounded-md bg-white text-gray-800 hover:bg-gray-50"
+                >
+                  درباره ما
+                </Link>
+
+                <Link
+                  href="/signup"
+                  className="p-1 rounded-md bg-white text-gray-800 hover:bg-gray-50"
+                >
+                  ارتباط با ما
+                </Link>
+              </ul>
+            </div> */}
           </div>
 
           {/* Desktop sign in links */}
           <ul className="flex flex-1 items-center justify-end gap-3">
             <li>
               <Link
-                href="/signin"
+                href="/auth/login"
                 className="btn-sm bg-white text-gray-800 shadow hover:bg-gray-50"
               >
                 ورود
@@ -40,7 +57,7 @@ export default function Header() {
             </li>
             <li>
               <Link
-                href="/signup"
+                href="/"
                 className="btn-sm bg-gray-800 text-gray-200 shadow hover:bg-gray-900"
               >
                 ثبت نام

@@ -191,7 +191,9 @@ export default function HeroHome() {
                     id="shortLink1"
                     name="shortLink1"
                     style={{ direction: 'ltr' }}
-                    placeholder="https://short.url/example1"
+                    placeholder={
+                      window.location.hostname + '/example-link'
+                    }
                     className="w-full rounded-lg"
                   />
                 </div>
@@ -233,7 +235,10 @@ export default function HeroHome() {
               </div>
 
               <div className="flex justify-center sm:justify-end">
-                <Button className="w-full sm:w-auto rounded-lg">
+                <Button
+                  className="w-full sm:w-auto rounded-lg"
+                  onClick={() => window.alert('متصل نکردمش.')}
+                >
                   کوتاه کن
                 </Button>
               </div>
