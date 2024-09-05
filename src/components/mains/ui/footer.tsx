@@ -2,12 +2,19 @@
 import Link from 'next/link';
 import Logo from './logo';
 import { useRouter } from 'next/navigation';
-
+import { useEffect, useState } from 'react';
 export default function Footer({
   border = false,
 }: {
   border?: boolean;
 }) {
+  const [hostname, setHostname] = useState('');
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setHostname(window.location.hostname);
+    }
+  }, []);
   return (
     <footer>
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
@@ -25,8 +32,7 @@ export default function Footer({
               <Logo />
             </div>
             <div className="text-sm text-gray-600">
-              &copy; {window.location.hostname} - تمام اطلاعات نزد ما
-              محفوظ می ماند.
+              &copy; {hostname ? hostname : ' '} - تمام اطلاعات نزد ما
             </div>
           </div>
 

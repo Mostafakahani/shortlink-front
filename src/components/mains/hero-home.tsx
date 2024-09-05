@@ -10,13 +10,19 @@ import Avatar06 from '/public/images/avatar-06.jpg';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 import { Eye, EyeOff } from 'lucide-react';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Button } from '../ui/button';
 
 export default function HeroHome() {
   const linkRef = useRef<HTMLDivElement>(null);
   const [showPassword, setShowPassword] = useState<Boolean>(false);
+  const [placeholder, setPlaceholder] = useState('');
 
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setPlaceholder(`${window.location.hostname}/example-link`);
+    }
+  }, []);
   const handleScrollToLink = (
     e: React.MouseEvent<HTMLAnchorElement>,
   ) => {
@@ -191,9 +197,7 @@ export default function HeroHome() {
                     id="shortLink1"
                     name="shortLink1"
                     style={{ direction: 'ltr' }}
-                    placeholder={
-                      window.location.hostname + '/example-link'
-                    }
+                    placeholder={placeholder}
                     className="w-full rounded-lg"
                   />
                 </div>

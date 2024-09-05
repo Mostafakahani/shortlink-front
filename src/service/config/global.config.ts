@@ -3,7 +3,7 @@ const API_BASE_URL =
 const API_VERSION = 'api';
 
 export const API_CONFIG = {
-  baseUrlDirect: 'vixxa.ir',
+  baseUrlDirect: 'link.webdevo.dev',
   baseUrl: API_BASE_URL,
   version: API_VERSION,
   endpoints: {
@@ -19,6 +19,11 @@ export const API_CONFIG = {
     user: {
       check: `${API_BASE_URL}/${API_VERSION}/user/get`,
       profile: `${API_BASE_URL}/${API_VERSION}/user/get`,
+      notes: `${API_BASE_URL}/${API_VERSION}/note`,
+      detailsNote: `${API_BASE_URL}/${API_VERSION}/note`,
+      createNote: `${API_BASE_URL}/${API_VERSION}/note/create`,
+      removeNote: `${API_BASE_URL}/${API_VERSION}/note/delete`,
+      updateNote: `${API_BASE_URL}/${API_VERSION}/note/update`,
       links: `${API_BASE_URL}/${API_VERSION}/url`,
       createLink: `${API_BASE_URL}/${API_VERSION}/url/shorten`,
       detailsLink: `${API_BASE_URL}/${API_VERSION}/url/stats`,

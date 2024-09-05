@@ -1,19 +1,14 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { getUserLinks } from './getUserLinks';
+import { getUserNots } from './getUserNots';
 import ActivePage from '@/components/dashboard/ActivePage';
 import { Button } from '@/components/ui/button';
 import {
   Calendar,
   Copy,
-  Edit,
   Edit2,
-  Mouse,
   MousePointerClick,
-  Plus,
-  Share2Icon,
-  ShareIcon,
 } from 'lucide-react';
 import {
   Select,
@@ -22,13 +17,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { DialogDemo } from '@/components/dashboard/createLinkDialog';
 import { useToast } from '@/components/ui/use-toast';
 import { ToastAction } from '@/components/ui/toast';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import API_CONFIG from '@/service/config/global.config';
 import { useRouter } from 'next/navigation';
-import { Link } from '@/service/dtos/global.dtos';
+import { Link, Note } from '@/service/dtos/global.dtos';
 import { ShareDialog } from '@/components/dashboard/ShareDialog';
 import {
   Tooltip,
@@ -36,28 +30,35 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
+import { CreateNoteDialog } from '@/components/dashboard/createNoteDialog';
 
-export default function LinksPage() {
+export default function NotesPage() {
   const router = useRouter();
   const { toast } = useToast();
-  const [userLinks, setUserLinks] = useState<Link[]>([]);
+  const [userNotes, setUserNotes] = useState<Note[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [originalUrl, setOriginalUrl] = useState<string | null>(null);
   const [shortCode, setShortCode] = useState<string | null>(null);
+  const [name, setName] = useState<string | null>(null);
   const [password, setPassword] = useState<string | null>(null);
   const [sortOption, setSortOption] = useState<string>('newest');
   const [isUpdated, setUpdated] = useState<boolean>(false);
   const [open, setOpen] = useState<boolean>(false);
 
-  const createLink = async () => {
+  const createNote = async () => {
     try {
-      const response = await fetch('/create-link', {
+      const response = await fetch('/create-note', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ originalUrl, shortCode, password }),
+        body: JSON.stringify({
+          content: originalUrl,
+          name,
+          shortCode,
+          password,
+        }),
         cache: 'no-cache',
       });
 
@@ -115,9 +116,9 @@ export default function LinksPage() {
       setError(null);
 
       try {
-        const response = await getUserLinks();
+        const response = await getUserNots();
         if (response && response.data) {
-          setUserLinks(response.data);
+          setUserNotes(response.data);
         } else {
           setError('Error: Data is not available');
         }
@@ -132,30 +133,30 @@ export default function LinksPage() {
 
     fetchData();
   }, [isUpdated]);
-  const sortLinks = (links: Link[], option: string) => {
+  const sortNotes = (notes: Note[], option: string) => {
     switch (option) {
       case 'newest':
-        return [...links].sort(
+        return [...notes].sort(
           (a, b) =>
             new Date(b.createdAt).getTime() -
             new Date(a.createdAt).getTime(),
         );
       case 'oldest':
-        return [...links].sort(
+        return [...notes].sort(
           (a, b) =>
             new Date(a.createdAt).getTime() -
             new Date(b.createdAt).getTime(),
         );
       case 'mostVisited':
-        return [...links].sort((a, b) => b.clickCount - a.clickCount);
+        return [...notes].sort((a, b) => b.clickCount - a.clickCount);
       case 'leastVisited':
-        return [...links].sort((a, b) => a.clickCount - b.clickCount);
+        return [...notes].sort((a, b) => a.clickCount - b.clickCount);
       default:
-        return links;
+        return notes;
     }
   };
   if (error) {
-    return <div>Error fetching user links: {error}</div>;
+    return <div>Error fetching user notes: {error}</div>;
   }
 
   return (
@@ -163,16 +164,18 @@ export default function LinksPage() {
       <div className="flex flex-row">
         <ActivePage />
 
-        <DialogDemo
+        <CreateNoteDialog
           originalUrl={originalUrl}
           onChangeOrginalLink={setOriginalUrl}
           shortCode={shortCode}
           onChangeShortCode={setShortCode}
           password={password}
           onChangePassword={setPassword}
-          onClick={createLink}
+          onClick={createNote}
           open={open}
           setOpen={setOpen}
+          name={name}
+          onChangeName={setName}
         />
       </div>
       <div className="mt-5">
@@ -198,8 +201,8 @@ export default function LinksPage() {
           <li>درحال بارگذاری...</li>
         ) : (
           <div>
-            {userLinks.length
-              ? sortLinks(userLinks, sortOption).map((link) => {
+            {userNotes.length
+              ? sortNotes(userNotes, sortOption).map((link) => {
                   // Create the URL object
                   const href = new URL(
                     link.shortCode,
@@ -208,7 +211,6 @@ export default function LinksPage() {
                       ? API_CONFIG.baseUrlDirect
                       : `https://${API_CONFIG.baseUrlDirect}`,
                   );
-
                   const createdAt = new Date(link.createdAt);
                   const formattedDate = createdAt.toLocaleString(
                     'fa-IR',
@@ -230,11 +232,11 @@ export default function LinksPage() {
                         <div className="flex flex-row items-center">
                           <Avatar>
                             <AvatarFallback className="text-blue-300 font-bold !text-2xl">
-                              {link.shortCode.slice(1, 2) || 'L'}
+                              {link?.name?.slice(0, 1) || 'L'}
                             </AvatarFallback>
                           </Avatar>
                           <span className="mr-2 font-bold">
-                            اسم لینک
+                            {link?.name}
                           </span>
                         </div>
                         <a
@@ -254,10 +256,10 @@ export default function LinksPage() {
                                 style={{ direction: 'ltr' }}
                                 className="text-ellipsis !text-right overflow-hidden cursor-pointer sm:whitespace-nowrap sm:max-w-full max-h-[50px]"
                                 onClick={() =>
-                                  copyToClipboard(link.originalUrl)
+                                  copyToClipboard(link.content)
                                 }
                               >
-                                {link.originalUrl}
+                                {link.content}
                               </h4>
                             </TooltipTrigger>
                             <TooltipContent>
@@ -298,7 +300,7 @@ export default function LinksPage() {
                           className="mr-2 bg-slate-200 text-black hover:text-slate-50 hidden sm:flex"
                           icon={<Edit2 className="!w-4 !h-4" />}
                           onClick={() =>
-                            router.push(`/dashboard/links/${link.id}`)
+                            router.push(`/dashboard/notes/${link.id}`)
                           }
                         >
                           ویرایش
@@ -308,7 +310,7 @@ export default function LinksPage() {
                           className="mr-2 mb-2 bg-slate-200 text-black hover:text-slate-50 sm:hidden"
                           icon={<Edit2 className="!w-4 !h-4 " />}
                           onClick={() =>
-                            router.push(`/dashboard/links/${link.id}`)
+                            router.push(`/dashboard/notes/${link.id}`)
                           }
                         />
 
@@ -342,7 +344,7 @@ export default function LinksPage() {
                     </div>
                   );
                 })
-              : !userLinks?.length &&
+              : !userNotes?.length &&
                 isLoading && <div>شما هیچ لینک فعالی ندارید.</div>}
           </div>
         )}

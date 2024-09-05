@@ -53,6 +53,11 @@ export const navItems: NavItem[] = [
     label: 'لینک ها',
     badge: '6',
   },
+  {
+    href: '/dashboard/notes',
+    icon: Link2,
+    label: 'یادداشت ها',
+  },
   { href: '/dashboard/qrcodes', icon: QrCode, label: 'کیوآر کد ها' },
   {
     href: '/dashboard/settings',

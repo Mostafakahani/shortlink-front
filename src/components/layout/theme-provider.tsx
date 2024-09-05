@@ -9,6 +9,6 @@ export function ThemeProvider({
   ...props
 }: ThemeProviderProps) {
   return (
-    <NextThemesProvider {...props}>{children}</NextThemesProvider>
+    <NextThemesProvider defaultTheme='light' {...props}>{children}</NextThemesProvider>
   );
 }
