@@ -1,5 +1,5 @@
 export const metadata = {
-  title: 'Home - Simple',
+  title: 'کوتاه کننده لینک',
   description: 'Page description',
 };
 
