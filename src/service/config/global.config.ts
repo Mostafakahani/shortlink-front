@@ -26,6 +26,7 @@ export const API_CONFIG = {
       updateNote: `${API_BASE_URL}/${API_VERSION}/note/update`,
       links: `${API_BASE_URL}/${API_VERSION}/url`,
       createLink: `${API_BASE_URL}/${API_VERSION}/url/shorten`,
+      createMNormal: `${API_BASE_URL}/${API_VERSION}/url/shortenNormal`,
       detailsLink: `${API_BASE_URL}/${API_VERSION}/url/stats`,
       removeLink: `${API_BASE_URL}/${API_VERSION}/url/link`,
       updateLink: `${API_BASE_URL}/${API_VERSION}/url/link`,

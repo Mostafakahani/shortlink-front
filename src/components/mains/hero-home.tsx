@@ -12,11 +12,15 @@ import { Label } from '../ui/label';
 import { Eye, EyeOff } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { Button } from '../ui/button';
+import API_CONFIG from '@/service/config/global.config';
 
 export default function HeroHome() {
   const linkRef = useRef<HTMLDivElement>(null);
   const [showPassword, setShowPassword] = useState<Boolean>(false);
   const [placeholder, setPlaceholder] = useState('');
+  const [orginalLink, setOrginalLink] = useState('');
+  const [shortLink, setShortLink] = useState('');
+  const [password, setPassword] = useState('');
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -39,6 +43,26 @@ export default function HeroHome() {
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
+  };
+  const handleCreateLink = async () => {
+    try {
+      const res = await fetch('/create-normal', {
+        method: 'POST',
+        body: JSON.stringify({
+          originalUrl: orginalLink,
+          shortCode: shortLink,
+          password,
+        }),
+      });
+      const data = await res.json();
+      window.alert(API_CONFIG.baseUrlDirect + shortLink);
+      setOrginalLink('');
+      setPassword('');
+      setShortLink('');
+      console.log({ data });
+    } catch (error) {
+      console.log('error on handleCreateLink: ', error);
+    }
   };
   return (
     <section className="relative">
@@ -173,6 +197,8 @@ export default function HeroHome() {
                   spellCheck="false"
                   autoFocus={false}
                   id="originalLink"
+                  value={orginalLink}
+                  onChange={(e) => setOrginalLink(e.target.value)}
                   name="originalLink"
                   style={{ direction: 'ltr' }}
                   placeholder="https://example-long-url.net/example"
@@ -194,6 +220,8 @@ export default function HeroHome() {
                     autoCapitalize="off"
                     spellCheck="false"
                     autoFocus={false}
+                    value={shortLink}
+                    onChange={(e) => setShortLink(e.target.value)}
                     id="shortLink1"
                     name="shortLink1"
                     style={{ direction: 'ltr' }}
@@ -218,6 +246,8 @@ export default function HeroHome() {
                       autoFocus={false}
                       id="shortLink2"
                       name="shortLink2"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
                       type={showPassword ? 'text' : 'password'}
                       style={{ direction: 'ltr' }}
                       placeholder="********"
@@ -241,7 +271,7 @@ export default function HeroHome() {
               <div className="flex justify-center sm:justify-end">
                 <Button
                   className="w-full sm:w-auto rounded-lg"
-                  onClick={() => window.alert('متصل نکردمش.')}
+                  onClick={handleCreateLink}
                 >
                   کوتاه کن
                 </Button>
