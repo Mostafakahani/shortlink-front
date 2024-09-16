@@ -224,7 +224,7 @@ export default function LinksPage() {
                   return (
                     <div
                       key={link.id}
-                      className="flex flex-row justify-between sm:h-40 rounded-xl shadow-xs p-4 mb-2 bg-white dark:bg-[#121212] transition-all hover:bg-black/10 bg-black/10 dark:bg-white/10"
+                      className="flex flex-row justify-between sm:h-40 rounded-xl shadow-xs p-4 mb-2 bg-white transition-all hover:bg-black/10 bg-black/10"
                     >
                       <div className="max-w-[80%] md:max-w-[60%] flex flex-col justify-between">
                         <div className="flex flex-row items-center">
