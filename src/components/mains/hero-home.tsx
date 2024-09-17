@@ -151,7 +151,7 @@ export default function HeroHome() {
                     className="btn w-full bg-white text-gray-800 shadow hover:bg-gray-50 sm:ml-4 sm:w-auto"
                     href="#0"
                   >
-                    درباره ما
+                    ساخت یادداشت
                   </a>
 
                   <a
